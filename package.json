@@ -1,0 +1,23 @@
+{
+  "name": "@mmosk/canvas",
+  "version": "1.0.0",
+  "description": "A wrapper for the Canvas API. Written in TypeScript",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmosk/canvas.git"
+  },
+  "keywords": [
+    "canvas",
+    "typescript"
+  ],
+  "author": "Maksym Moskalchuk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mmosk/canvas/issues"
+  },
+  "homepage": "https://github.com/mmosk/canvas#readme"
+}
