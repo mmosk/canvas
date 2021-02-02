@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/mmosk/canvas/issues"
   },
-  "homepage": "https://github.com/mmosk/canvas#readme"
+  "homepage": "https://github.com/mmosk/canvas#readme",
+  "devDependencies": {
+    "typescript": "^4.1.3"
+  }
 }
