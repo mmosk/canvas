@@ -45,5 +45,8 @@
     "*.{js,ts}": [
       "eslint --fix"
     ]
+  },
+  "dependencies": {
+    "rxjs": "^6.6.3"
   }
 }
