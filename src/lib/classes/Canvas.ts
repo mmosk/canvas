@@ -2,7 +2,7 @@ export class Canvas {
   protected canvas: HTMLCanvasElement;
 
   constructor(id: string) {
-    const element: HTMLElement | null = document.getElementById(id);
+    const element = document.getElementById(id);
 
     if (!element || !Canvas.isCanvasElement(element)) throw 'Invalid ID';
 
