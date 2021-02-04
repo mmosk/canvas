@@ -4,6 +4,8 @@ import { Point } from '../interfaces';
 export class Canvas2D extends Canvas {
   private ctx: CanvasRenderingContext2D;
 
+  private origin: Point = { x: 0, y: 0 };
+
   constructor(id: string, alpha = false) {
     super(id);
 
@@ -22,13 +24,29 @@ export class Canvas2D extends Canvas {
     this.ctx.clearRect(0, 0, this.width, this.height);
   }
 
+  setOrigin(x: number, y: number): void {
+    this.origin.x = x;
+    this.origin.y = y;
+  }
+
+  private resolvePoint({ x, y }: Point): Point {
+    return {
+      x: this.origin.x + x,
+      y: this.origin.y + y,
+    };
+  }
+
   path(points: Point[], close = false): void {
     this.ctx.beginPath();
 
-    this.ctx.moveTo(points[0].x, points[0].y);
+    const { x, y } = this.resolvePoint(points[0]);
+
+    this.ctx.moveTo(x, y);
 
     for (let i = 1, len = points.length; i < len; i++) {
-      this.ctx.lineTo(points[i].x, points[i].y);
+      const { x, y } = this.resolvePoint(points[i]);
+
+      this.ctx.lineTo(x, y);
     }
 
     if (close) this.ctx.closePath();
