@@ -35,24 +35,36 @@ export class Canvas2D extends Canvas {
     this.scale.y = y;
   }
 
-  private resolvePoint({ x, y }: Point): Point {
-    return {
-      x: this.origin.x + x * this.scale.x,
-      y: this.origin.y + y * this.scale.y,
-    };
+  private resolveCoordinate(value: number, axis: 'x' | 'y'): number {
+    return this.origin[axis] + value * this.scale[axis];
+  }
+
+  private resolveDimension(value: number, axis: 'x' | 'y'): number {
+    return value * this.scale[axis];
+  }
+
+  rect(x1: number, y1: number, x2: number, y2: number): void {
+    const x = this.resolveCoordinate(x1, 'x');
+    const y = this.resolveCoordinate(y1, 'y');
+    const width = this.resolveDimension(x2 - x1, 'x');
+    const height = this.resolveDimension(y2 - y1, 'y');
+
+    this.ctx.strokeRect(x, y, width, height);
   }
 
   path(points: Point[], close = false): void {
     this.ctx.beginPath();
 
-    const { x, y } = this.resolvePoint(points[0]);
-
-    this.ctx.moveTo(x, y);
+    this.ctx.moveTo(
+      this.resolveCoordinate(points[0].x, 'x'),
+      this.resolveCoordinate(points[0].y, 'y')
+    );
 
     for (let i = 1, len = points.length; i < len; i++) {
-      const { x, y } = this.resolvePoint(points[i]);
-
-      this.ctx.lineTo(x, y);
+      this.ctx.lineTo(
+        this.resolveCoordinate(points[i].x, 'x'),
+        this.resolveCoordinate(points[i].y, 'y')
+      );
     }
 
     if (close) this.ctx.closePath();
