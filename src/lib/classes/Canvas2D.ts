@@ -1,10 +1,11 @@
 import { Canvas } from './Canvas';
-import { Point } from '../interfaces';
+import { Point, Scale } from '../interfaces';
 
 export class Canvas2D extends Canvas {
   private ctx: CanvasRenderingContext2D;
 
   private origin: Point = { x: 0, y: 0 };
+  private scale: Scale = { x: 1, y: 1 };
 
   constructor(id: string, alpha = false) {
     super(id);
@@ -29,10 +30,15 @@ export class Canvas2D extends Canvas {
     this.origin.y = y;
   }
 
+  setScale(x: number, y: number): void {
+    this.scale.x = x;
+    this.scale.y = y;
+  }
+
   private resolvePoint({ x, y }: Point): Point {
     return {
-      x: this.origin.x + x,
-      y: this.origin.y + y,
+      x: this.origin.x + x * this.scale.x,
+      y: this.origin.y + y * this.scale.y,
     };
   }
 
