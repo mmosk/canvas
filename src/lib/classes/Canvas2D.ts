@@ -1,4 +1,5 @@
 import { Canvas } from './Canvas';
+import { Point } from '../interfaces';
 
 export class Canvas2D extends Canvas {
   private ctx: CanvasRenderingContext2D;
@@ -19,5 +20,19 @@ export class Canvas2D extends Canvas {
 
   clear(): void {
     this.ctx.clearRect(0, 0, this.width, this.height);
+  }
+
+  path(points: Point[], close = false): void {
+    this.ctx.beginPath();
+
+    this.ctx.moveTo(points[0].x, points[0].y);
+
+    for (let i = 1, len = points.length; i < len; i++) {
+      this.ctx.lineTo(points[i].x, points[i].y);
+    }
+
+    if (close) this.ctx.closePath();
+
+    this.ctx.stroke();
   }
 }
