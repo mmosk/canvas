@@ -1,15 +1,62 @@
 import { Canvas } from './Canvas';
+import { Point, Scale } from '../interfaces';
 
 export class Canvas2D extends Canvas {
-  private context: CanvasRenderingContext2D;
+  private ctx: CanvasRenderingContext2D;
 
-  constructor(id: string) {
+  private origin: Point = { x: 0, y: 0 };
+  private scale: Scale = { x: 1, y: 1 };
+
+  constructor(id: string, alpha = false) {
     super(id);
 
-    const context = this.canvas.getContext('2d');
+    const ctx = this.canvas.getContext('2d', { alpha });
 
-    if (!context) throw 'Canvas is set to a different context mode';
+    if (!ctx) throw 'Canvas is set to a different context mode';
 
-    this.context = context;
+    this.ctx = ctx;
+  }
+
+  get context(): CanvasRenderingContext2D {
+    return this.ctx;
+  }
+
+  clear(): void {
+    this.ctx.clearRect(0, 0, this.width, this.height);
+  }
+
+  setOrigin(x: number, y: number): void {
+    this.origin.x = x;
+    this.origin.y = y;
+  }
+
+  setScale(x: number, y: number): void {
+    this.scale.x = x;
+    this.scale.y = y;
+  }
+
+  private resolvePoint({ x, y }: Point): Point {
+    return {
+      x: this.origin.x + x * this.scale.x,
+      y: this.origin.y + y * this.scale.y,
+    };
+  }
+
+  path(points: Point[], close = false): void {
+    this.ctx.beginPath();
+
+    const { x, y } = this.resolvePoint(points[0]);
+
+    this.ctx.moveTo(x, y);
+
+    for (let i = 1, len = points.length; i < len; i++) {
+      const { x, y } = this.resolvePoint(points[i]);
+
+      this.ctx.lineTo(x, y);
+    }
+
+    if (close) this.ctx.closePath();
+
+    this.ctx.stroke();
   }
 }
