@@ -16,4 +16,8 @@ export class Canvas2D extends Canvas {
   get context(): CanvasRenderingContext2D {
     return this.ctx;
   }
+
+  clear(): void {
+    this.ctx.clearRect(0, 0, this.width, this.height);
+  }
 }
