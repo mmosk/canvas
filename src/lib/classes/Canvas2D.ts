@@ -4,10 +4,10 @@ import { Point } from '../interfaces';
 export class Canvas2D extends Canvas {
   private ctx: CanvasRenderingContext2D;
 
-  constructor(id: string) {
+  constructor(id: string, alpha = false) {
     super(id);
 
-    const ctx = this.canvas.getContext('2d');
+    const ctx = this.canvas.getContext('2d', { alpha });
 
     if (!ctx) throw 'Canvas is set to a different context mode';
 
