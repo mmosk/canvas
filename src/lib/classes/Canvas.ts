@@ -1,11 +1,13 @@
-import { fromEvent } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { fromEvent, Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 
 export class Canvas {
   protected canvas: HTMLCanvasElement;
 
   protected width: number;
   protected height: number;
+
+  protected destroy$ = new Subject<null>();
 
   constructor(id: string) {
     const element = document.getElementById(id);
@@ -17,8 +19,12 @@ export class Canvas {
     this.syncSize();
 
     fromEvent(window, 'resize')
-      .pipe(debounceTime(500))
+      .pipe(debounceTime(500), takeUntil(this.destroy$))
       .subscribe(this.syncSize.bind(this));
+  }
+
+  unsubscribe(): void {
+    this.destroy$.next(null);
   }
 
   private syncSize(): void {
