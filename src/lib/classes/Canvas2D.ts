@@ -1,15 +1,19 @@
 import { Canvas } from './Canvas';
 
 export class Canvas2D extends Canvas {
-  private context: CanvasRenderingContext2D;
+  private ctx: CanvasRenderingContext2D;
 
   constructor(id: string) {
     super(id);
 
-    const context = this.canvas.getContext('2d');
+    const ctx = this.canvas.getContext('2d');
 
-    if (!context) throw 'Canvas is set to a different context mode';
+    if (!ctx) throw 'Canvas is set to a different context mode';
 
-    this.context = context;
+    this.ctx = ctx;
+  }
+
+  get context(): CanvasRenderingContext2D {
+    return this.ctx;
   }
 }
