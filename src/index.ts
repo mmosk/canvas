@@ -14,4 +14,4 @@ canvas.path(
   true
 );
 
-canvas.rect(-25, 0, 25, -50);
+canvas.rect(-25, 0, 50, -50, null, '#000');

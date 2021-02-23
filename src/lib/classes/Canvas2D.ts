@@ -43,13 +43,32 @@ export class Canvas2D extends Canvas {
     return value * this.scale[axis];
   }
 
-  rect(x1: number, y1: number, x2: number, y2: number): void {
-    const x = this.resolveCoordinate(x1, 'x');
-    const y = this.resolveCoordinate(y1, 'y');
-    const width = this.resolveDimension(x2 - x1, 'x');
-    const height = this.resolveDimension(y2 - y1, 'y');
+  rect(
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    fillStyle?: string | null,
+    strokeStyle?: string
+  ): void {
+    if (!strokeStyle && !fillStyle) return;
 
-    this.ctx.strokeRect(x, y, width, height);
+    const args: [number, number, number, number] = [
+      this.resolveCoordinate(x, 'x'),
+      this.resolveCoordinate(y, 'y'),
+      this.resolveDimension(w, 'x'),
+      this.resolveDimension(h, 'y'),
+    ];
+
+    if (fillStyle) {
+      this.ctx.fillStyle = fillStyle;
+      this.ctx.fillRect(...args);
+    }
+
+    if (strokeStyle) {
+      this.ctx.strokeStyle = strokeStyle;
+      this.ctx.strokeRect(...args);
+    }
   }
 
   path(points: Point[], close = false): void {
